@@ -1,10 +1,16 @@
 import { remark } from 'remark';
+import remarkGfm from 'remark-gfm'
 import html from 'remark-html';
-import { initializeApp, cert } from 'firebase-admin/app';
+import { initializeApp, cert, deleteApp, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import * as serviceAccount from '../../firebaseToken.json'
 
-export default function Post(props) {
-  if (props.exists === false) {
+interface postProps {
+  html: string;
+}
+
+export default function Post(props: postProps) {
+  if (!props.html) {
     return (
       <h1>Hello, World!</h1>
     )
@@ -31,30 +37,24 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
-
-  const serviceAccount = require("../../firebaseToken.json");
-
+export async function getStaticProps({ params }: { params: { pid: string}}) {
   const app = initializeApp({
-    credential: cert(serviceAccount)
+    credential: cert(serviceAccount as ServiceAccount)
   });
 
   const db = getFirestore();
 
   const doc = await db.collection("posts").doc(params.pid).get();
   // console.log(doc) 
-  app.delete()
+  deleteApp(app); 
 
-  if (!doc.exists) {
-    return {
-      props: {
-        exists: false,
-      }
-    }
+  let mdHtml: string = "";
+
+  if (doc.exists) {
+    const md = doc?.data()?.md
+    const processed = await remark().use(remarkGfm).use(html).process(md);
+    mdHtml = processed.toString();
   }
-
-  const processed = await remark().use(html).process(doc.data().md);
-  const mdHtml = processed.toString();
 
   return {
     props: {
