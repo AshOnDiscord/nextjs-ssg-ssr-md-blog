@@ -1,0 +1,76 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.md {
+  @apply bg-zinc-900 p-8;
+}
+
+.md h1 {
+  @apply text-4xl leading-loose font-semibold;
+}
+
+.md h2 {
+  @apply text-2xl leading-loose font-semibold;
+}
+.md h3 {
+  @apply text-xl leading-relaxed font-semibold;
+}
+
+.md h4 {
+  @apply text-lg leading-relaxed font-semibold;
+}
+
+.md h5 {
+  @apply text-base leading-relaxed font-semibold;
+}
+
+.md h6 {
+  @apply text-sm leading-relaxed font-semibold;
+}
+
+.md code {
+  @apply bg-black px-2 py-1 text-sm rounded-md m-[0.125rem] inline-block font-mono;
+}
+
+.md ul {
+  @apply list-disc ml-8;
+}
+
+.md ol {
+  @apply list-decimal ml-8;
+}
+
+.md ol li::marker {
+}
+
+.md .task-list-item input[type="checkbox"] {
+  @apply mr-2 ml-1;
+}
