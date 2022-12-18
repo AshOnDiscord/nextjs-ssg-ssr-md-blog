@@ -25,9 +25,10 @@ server.post("/", async (req: Request, res: Response) => {
   const title = md
     .split("\n")[0] // Get first line
     .slice(2) // Remove # from start
-    .trim() // Remove whitespace
-    .replaceAll(" ", "-")
-    .replace(/[^a-zA-Z0-9-_]/g, "") // Remove special characters
+    .replace(/[^a-zA-Z0-9-_ ]/g, "")
+    .trim() // Remove extra whitespace
+    .replaceAll(" ", "-") // Remove special characters
+    .replace(/-{2,}/g, "-") // Remove extra dashes
     .toLowerCase();
 
   // console.log(title);
